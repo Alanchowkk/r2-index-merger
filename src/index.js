@@ -5,7 +5,8 @@ addEventListener('fetch', event => {
 async function handleRequest(request) {
   // 1. Configure the multiple R2 public index.json URLs to merge
   const sourceUrls = [
-    "https://dictaplus.teacheralan.dpdns.org/index.json" // Official demo bucket
+    "https://dictaplus.teacheralan.dpdns.org/index.json", // Official demo bucket
+    "https://pub-c3bd4baf19f2453bbea40eaf8ef6d957.r2.dev/index.json" // User's new bucket (Desperate Housewives & Friends)
   ]
   
   let mergedAlbums = []
