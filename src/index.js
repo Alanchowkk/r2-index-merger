@@ -1,13 +1,16 @@
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
+export default {
+  async fetch(request, env, ctx) {
+    return handleRequest(request, env);
+  }
+}
 
-async function handleRequest(request) {
+async function handleRequest(request, env) {
   const urlObj = new URL(request.url);
   const path = urlObj.pathname;
   const origin = urlObj.origin;
 
-  const tokenHeader = 'Bearer ' + (typeof HF_TOKEN_SECRET !== 'undefined' ? HF_TOKEN_SECRET : '');
+  const hfToken = env.HF_TOKEN_SECRET || '';
+  const tokenHeader = `Bearer ${hfToken}`;
   const PRIVATE_REPO_BASE = 'https://huggingface.co/datasets/zbw92017/english-listening-private/resolve/main';
   const PUBLIC_REPO_BASE = 'https://hf-mirror.com/datasets/zbw92017/english-listening/resolve/main';
   const OFFICIAL_BASE = 'https://dictaplus.teacheralan.dpdns.org';
@@ -129,6 +132,8 @@ async function handleRequest(request) {
           }
         });
       }
+    } else {
+      console.error("Failed to fetch private index, status:", response.status);
     }
   } catch (e) {
     console.error("Error fetching private index:", e);
